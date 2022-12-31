@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.courseSpringBoot.course.entities.User;
 import com.courseSpringBoot.course.repositories.UserRepository;
+import com.courseSpringBoot.course.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class UserService {
@@ -21,7 +22,8 @@ public class UserService {
 	
 	public User finById (Long id) {
 		Optional<User> obj = repository.findById(id);
-		return obj.get();
+		//Ele faz o método get, "se não", ele lança a excessão personalizada
+		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 	
 	public User insert(User obj) {
